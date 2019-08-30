@@ -75,11 +75,13 @@ public class Server {
         ShutdownHook.getInstance().addDisposable(coordinator);
 
         //127.0.0.1 and 0.0.0.0 are not valid here.
-        if (NetUtil.isValidIp(parameterParser.getHost(), false)) {
-            XID.setIpAddress(parameterParser.getHost());
-        } else {
-            XID.setIpAddress(NetUtil.getLocalIp());
-        }
+//        if (NetUtil.isValidIp(parameterParser.getHost(), false)) {
+//            XID.setIpAddress(parameterParser.getHost());
+//        } else {
+//            XID.setIpAddress(NetUtil.getLocalIp());
+//        }
+
+        XID.setIpAddress("127.0.0.1");
         XID.setPort(rpcServer.getListenPort());
 
         rpcServer.init();
