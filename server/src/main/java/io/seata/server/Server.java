@@ -42,9 +42,9 @@ public class Server {
     private static final int MAX_TASK_QUEUE_SIZE = 20000;
     private static final int KEEP_ALIVE_TIME = 500;
     private static final ThreadPoolExecutor WORKING_THREADS = new ThreadPoolExecutor(MIN_SERVER_POOL_SIZE,
-        MAX_SERVER_POOL_SIZE, KEEP_ALIVE_TIME, TimeUnit.SECONDS,
-        new LinkedBlockingQueue<>(MAX_TASK_QUEUE_SIZE),
-        new NamedThreadFactory("ServerHandlerThread", MAX_SERVER_POOL_SIZE), new ThreadPoolExecutor.CallerRunsPolicy());
+            MAX_SERVER_POOL_SIZE, KEEP_ALIVE_TIME, TimeUnit.SECONDS,
+            new LinkedBlockingQueue<>(MAX_TASK_QUEUE_SIZE),
+            new NamedThreadFactory("ServerHandlerThread", MAX_SERVER_POOL_SIZE), new ThreadPoolExecutor.CallerRunsPolicy());
 
     /**
      * The entry point of application.
@@ -75,13 +75,11 @@ public class Server {
         ShutdownHook.getInstance().addDisposable(coordinator);
 
         //127.0.0.1 and 0.0.0.0 are not valid here.
-//        if (NetUtil.isValidIp(parameterParser.getHost(), false)) {
-//            XID.setIpAddress(parameterParser.getHost());
-//        } else {
-//            XID.setIpAddress(NetUtil.getLocalIp());
-//        }
-
-        XID.setIpAddress("127.0.0.1");
+        if (NetUtil.isValidIp(parameterParser.getHost(), false)) {
+            XID.setIpAddress(parameterParser.getHost());
+        } else {
+            XID.setIpAddress(NetUtil.getLocalIp());
+        }
         XID.setPort(rpcServer.getListenPort());
 
         rpcServer.init();
